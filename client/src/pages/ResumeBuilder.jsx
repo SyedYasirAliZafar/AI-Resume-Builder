@@ -14,6 +14,10 @@ import {
   User,
 } from "lucide-react";
 import PersonalInfoForm from "../components/PersonalInfoForm";
+import ResumePreview from "../components/ResumePreview";
+import TemplateSelector from "../components/TemplateSelector";
+import ColorPicker from "../components/ColorPicker";
+import ProfessionalSummary from "../components/ProfessionalSummary";
 
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
@@ -86,7 +90,13 @@ const ResumeBuilder = () => {
 
               {/* Section Navigation */}
               <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
-                <div></div>
+                <div className="flex items-center gap-2">
+                  <TemplateSelector selectedTemplate={resumeData.template} onChange={(template)=>setResumeData(prev => ({...prev, template}))}/>
+
+                <ColorPicker selectedColor={resumeData.accent_color} onChange={(color)=> setResumeData(prev => ({...prev, accent_color: color}))}/>
+                </div>
+
+                
                 <div className="flex items-center">
                   {activeSectionIndex !== 0 && (
                     <button
@@ -108,7 +118,7 @@ const ResumeBuilder = () => {
                       )
                     }
                     className= {`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${activeSectionIndex === sections.length - 1 && 'opacity-50'}`}
-                    disabled={activeSectionIndex === 0}
+                    disabled={activeSectionIndex === sections.length + 1}
                   >
                     Next <ChevronRight className="size-4" />
                   </button>
@@ -119,12 +129,24 @@ const ResumeBuilder = () => {
                         {activeSection.id === 'personal' && (
                           <PersonalInfoForm data={resumeData.personal_info} onChange={(data)=>setResumeData(prev => ({...prev, personal_info: data}))} removeBackground={removeBackground} setRemoveBackground={setRemoveBackground} />
                         )}
+
+                        {
+                          activeSection.id === 'summary' && (
+                            <ProfessionalSummary data={resumeData.professional_summary} onChange={(data)=>setResumeData(prev => ({...prev, professional_summary: data}))} setResumeData={setResumeData}/>
+                          )
+                        }
                     </div>
 
             </div>
           </div>
           {/* Right Pannel - Preview  */}
-          <div></div>
+          <div className="lg:col-span-7 max-lg:mt-6">
+                        <div>
+                          {/* buttons */}
+                        </div>
+
+                        <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} />
+          </div>
         </div>
       </div>
     </div>
