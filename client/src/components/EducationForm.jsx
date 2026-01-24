@@ -64,16 +64,15 @@ const EducationForm = ({ data, onChange }) => {
               </div>
 
               <div className="grid md:grid-cols-2 gap-3">
-               <input
-  type="text"
-  value={education.institution || ""}
-  onChange={(e) =>
-    updateEducation(index, "institution", e.target.value)
-  }
-  placeholder="Institute Name"
-  className="px-3 py-2 text-sm "
-/>
-
+                <input
+                  type="text"
+                  value={education.institution || ""}
+                  onChange={(e) =>
+                    updateEducation(index, "institution", e.target.value)
+                  }
+                  placeholder="Institute Name"
+                  className="px-3 py-2 text-sm "
+                />
 
                 <input
                   type="text"
