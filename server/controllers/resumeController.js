@@ -1,4 +1,6 @@
+import imageKit from "../config/imageKit.js";
 import { Resume } from "../models/Resume.model.js";
+import fs from "fs";
 
 // controller for creatimg a new resume
 // POST: /api/resumes/create
@@ -88,7 +90,25 @@ export const updateResume = async (req, res) => {
   try {
     const userId = req.userId;
     const { resumeId, resumeData, removeBackground } = req.body;
-    const image = req.findOneAndDelete;
+    const image = req.file;
+
+    if (image) {
+      const imageBufferData = fs.createReadStream(image.path);
+
+      const response = await imageKit.files.upload({
+        file: imageBufferData,
+        fileName: "resume.png",
+        folder: "user-resumes",
+        transformation: {
+          pre:
+            "w-300, h-300, fo-face, z-0.75" +
+            (removeBackground ? ",e-bgremove" : ""),
+        },
+      });
+
+      resumeDataCopy.personal_info.image = response.url
+
+    }
 
     const resumeDataCopy =
       typeof resumeData === "string" ? JSON.parse(resumeData) : resumeData;
