@@ -31,7 +31,7 @@ const Login = () => {
       dispatch(login(data))
       localStorage.setItem('token', data.token)
       toast.success(data.message)
-      navigate('/app')
+      navigate('/')
       
     } catch (error) {
       toast(error?.response?.data?.message || error.message)
