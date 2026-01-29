@@ -73,8 +73,9 @@ export const loginUser = async (req, res) => {
 
     // return success message
 
-    const token = generateToken(newUser._id);
-    newUser.password = undefined;
+  const token = generateToken(user._id);
+user.password = undefined;
+
 
     return res.status(200).json({ message: "Login successful", token, user });
   } catch (error) {
