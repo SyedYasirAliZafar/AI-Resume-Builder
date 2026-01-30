@@ -5,6 +5,8 @@ import connectDB from './config/db.js'
 import userRouter from './routes/userRoutes.js'
 import resumeRouter from './routes/resumeRoutes.js'
 import aiRouter from './routes/aiRoutes.js'
+import {File} from 'node:buffer';
+globalThis.File = File;
 
 const app = express()
 const PORT = process.env.PORT || 3000
