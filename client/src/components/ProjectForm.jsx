@@ -1,7 +1,7 @@
 import { Folder, Plus, Trash2 } from "lucide-react";
 import React from "react";
 
-const ProjectForm = ({ data, onChange }) => {
+const ProjectForm = ({ data = [], onChange }) => {
   const addProject = () => {
     const newProject = {
       name: "",
@@ -9,7 +9,7 @@ const ProjectForm = ({ data, onChange }) => {
       description: "",
     };
 
-    onChange([...data, newProject]);
+    onChange([...(data || []), newProject]);
   };
 
   const removeProject = (index) => {
@@ -22,6 +22,8 @@ const ProjectForm = ({ data, onChange }) => {
     updated[index] = { ...updated[index], [field]: value };
     onChange(updated);
   };
+
+  
 
   return (
     <div>
@@ -41,7 +43,7 @@ const ProjectForm = ({ data, onChange }) => {
         </button>
       </div>
 
-      {data.length === 0 ? (
+      {(data || []).length === 0 ? (
         <div className="text-center py-8 text-gray-500">
           <Folder className="w-12 h-12 mx-auto mb-3 text-gray-300" />
           <p>No project added yet.</p>
@@ -49,7 +51,7 @@ const ProjectForm = ({ data, onChange }) => {
         </div>
       ) : (
         <div className="space-y-4 mt-6">
-          {data.map((project, index) => (
+          {(data || []).map((project, index) => (
             <div
               key={index}
               className="p-4 border border-gray-200 rounded-lg space-y-3"

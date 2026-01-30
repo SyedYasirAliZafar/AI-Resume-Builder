@@ -122,6 +122,9 @@ const ResumeBuilder = () => {
     try {
       let updatedResumeData = structuredClone(resumeData);
 
+      console.log("Saving Resume:", resumeData)
+
+
       // remove image from updatedResumeData
 
       if (typeof resumeData.personal_info.image === "object") {
@@ -143,7 +146,7 @@ const ResumeBuilder = () => {
       });
 
       setResumeData(data.resume);
-      toast.success(data.message);
+      // toast.success(data.message);
     } catch (error) {
       console.error("Error saving resume:", error);
     }

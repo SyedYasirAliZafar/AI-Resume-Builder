@@ -92,6 +92,11 @@ export const updateResume = async (req, res) => {
     const { resumeId, resumeData, removeBackground } = req.body;
     const image = req.file;
 
+    // Parse resumeData first
+    const resumeDataCopy =
+      typeof resumeData === "string" ? JSON.parse(resumeData) : resumeData;
+
+    // If image exists, upload and set in personal_info
     if (image) {
       const imageBufferData = fs.createReadStream(image.path);
 
@@ -106,16 +111,19 @@ export const updateResume = async (req, res) => {
         },
       });
 
+      // Ensure personal_info exists
+      resumeDataCopy.personal_info = resumeDataCopy.personal_info || {};
       resumeDataCopy.personal_info.image = response.url;
     }
 
-    const resumeDataCopy =
-      typeof resumeData === "string" ? JSON.parse(resumeData) : resumeData;
+    console.log("Updating Resume:", JSON.stringify(resumeDataCopy, null, 2));
 
+
+    // Update in DB
     const resume = await Resume.findOneAndUpdate(
       { userId, _id: resumeId },
       resumeDataCopy,
-      { new: true },
+      { new: true }
     );
 
     return res.status(200).json({ message: "Saved Successfully", resume });
@@ -123,3 +131,4 @@ export const updateResume = async (req, res) => {
     return res.status(400).json({ message: error.message });
   }
 };
+
